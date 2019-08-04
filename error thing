@@ -1,0 +1,122 @@
+import React from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
+//import { ExpoLinksView } from '@expo/samples';
+import { ThingView } from './ThingView';
+
+export default function LinksScreen() {
+  return (
+    <ScrollView style={styles.container}>
+      {/**
+       * Go ahead and delete ExpoLinksView and replace it with your content;
+       * we just wanted to provide you with some helpful links.
+       */}
+      <ThingView />
+    </ScrollView>
+  );
+} 
+
+------------
+
+Invariant Violation: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check the render method of `LinksScreen`.
+
+This error is located at:
+    in RCTScrollContentView (at ScrollView.js:976)
+    in RCTScrollView (at ScrollView.js:1115)
+    in ScrollView (at LinksScreen.js:8)
+    in LinksScreen (at SceneView.js:9)
+    in SceneView (at StackViewLayout.tsx:899)
+    in RCTView (at View.js:45)
+    in View (at createAnimatedComponent.js:151)
+    in AnimatedComponent (at StackViewCard.tsx:93)
+    in RCTView (at View.js:45)
+    in View (at createAnimatedComponent.js:151)
+    in AnimatedComponent (at screens.native.js:71)
+    in Screen (at StackViewCard.tsx:80)
+    in Card (at createPointerEventsContainer.tsx:95)
+    in Container (at StackViewLayout.tsx:971)
+    in RCTView (at View.js:45)
+    in View (at screens.native.js:101)
+    in ScreenContainer (at StackViewLayout.tsx:383)
+    in RCTView (at View.js:45)
+    in View (at createAnimatedComponent.js:151)
+    in AnimatedComponent (at StackViewLayout.tsx:379)
+    in PanGestureHandler (at StackViewLayout.tsx:372)
+    in StackViewLayout (at withOrientation.js:30)
+    in withOrientation (at StackView.tsx:103)
+    in RCTView (at View.js:45)
+    in View (at Transitioner.tsx:267)
+    in Transitioner (at StackView.tsx:40)
+    in StackView (at createNavigator.js:61)
+    in Navigator (at createKeyboardAwareNavigator.js:12)
+    in KeyboardAwareNavigator (at SceneView.js:9)
+    in SceneView (at createTabNavigator.js:39)
+    in RCTView (at View.js:45)
+    in View (at ResourceSavingScene.js:37)
+    in RCTView (at View.js:45)
+    in View (at ResourceSavingScene.js:26)
+    in ResourceSavingScene (at createBottomTabNavigator.js:121)
+    in RCTView (at View.js:45)
+    in View (at screens.native.js:101)
+    in ScreenContainer (at createBottomTabNavigator.js:111)
+    in RCTView (at View.js:45)
+    in View (at createBottomTabNavigator.js:110)
+    in TabNavigationView (at createTabNavigator.js:197)
+    in NavigationView (at createNavigator.js:61)
+    in Navigator (at SceneView.js:9)
+    in SceneView (at SwitchView.js:12)
+    in SwitchView (at createNavigator.js:61)
+    in Navigator (at createAppContainer.js:429)
+    in NavigationContainer (at App.js:25)
+    in RCTView (at View.js:45)
+    in View (at App.js:23)
+    in App (at withExpoRoot.js:20)
+    in RootErrorBoundary (at withExpoRoot.js:19)
+    in ExpoRootComponent (at renderApplication.js:35)
+    in RCTView (at View.js:45)
+    in View (at AppContainer.js:98)
+    in RCTView (at View.js:45)
+    in View (at AppContainer.js:115)
+    in AppContainer (at renderApplication.js:34)
+
+createFiberFromTypeAndProps
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:15623:26
+createFiberFromElement
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:15643:48
+reconcileSingleElement
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:17752:51
+reconcileChildFibers
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:17799:63
+reconcileChildren
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:19331:50
+updateHostComponent
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:19706:26
+performUnitOfWork
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:23732:27
+workLoop
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:23766:47
+renderRoot
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:23832:21
+performWorkOnRoot
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:24570:23
+performWork
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:24497:30
+performSyncWork
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:24473:20
+batchedUpdates$1
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:24658:28
+batchedUpdates
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:13389:37
+_receiveRootNodeIDEvent
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:13446:23
+receiveTouches
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:13476:34
+__callFunction
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:3178:49
+<unknown>
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:2935:31
+__guard
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:3132:15
+callFunctionReturnFlushedQueue
+    AppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:2934:21

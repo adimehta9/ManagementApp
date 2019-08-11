@@ -1,160 +1,62 @@
-import React, {Component} from 'react';
+import { AppLoading } from 'expo';
+import { Asset } from 'expo-asset';
+import * as Font from 'expo-font';
+import React, { useState } from 'react';
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
+import AppNavigator from './navigation/AppNavigator';
 
+export default function App(props) {
+  const [isLoadingComplete, setLoadingComplete] = useState(false);
 
-
-import {
-  StyleSheet, 
-  Text, 
-  View, 
-  TextInput, 
-  Image,
-  TouchableOpacity,
-  
-} from 'react-native';
-
-
-type Props = {};
-export default class App extends Component<{}> {
-  render() {
-     return (
-
-
-      
-      
-     <View style={styles.container}>
-
-          
-        <Image
-          style={{height:150, width:150, marginTop:150}}
-          source={require('./app/img/alphaacademylogo.png')}
-        />
-
-        <Text style={
-          {color: 'white', fontSize:50, marginTop: 30, fontFamily: 'TimesNewRomanPSMT'}}> {"A L P H A"} 
-        </Text>
-          
-        <TextInput style={styles.inputBox1} 
-          keyboardType = 'email-address'
-          placeholder = 'Enter Your Email'
-          placeholderTextColor = 'white'
-          color = 'white'
-          autoCapitalize = 'none'
-          underlineColorAndroid ='rgba(0,0,0,0)'
-          onSubmitEnding = {() => this.passwordInput.focus()}
-          keyboardType = "email-address"
-          autoCorrect = {false}
-          returnKeyType = "next"
-        />
-
-            
-        <TextInput style={styles.inputBox2} 
-          placeholder= 'Enter Your Password'
-          color = 'white'
-          placeholderTextColor='white'
-          secureTextEntry = {true}
-          underlineColorAndroid ='rgba(0,0,0,0)'
-          returnKeyType = "go"
-          ref={(input) => this.passwordInput = input}
-        />
-
-
-
-
-        <TouchableOpacity style={styles.button} 
-          onPress={() => console.log("I'm Adi")}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-
-
+  if (!isLoadingComplete && !props.skipLoadingScreen) {
+    return (
+      <AppLoading
+        startAsync={loadResourcesAsync}
+        onError={handleLoadingError}
+        onFinish={() => handleFinishLoading(setLoadingComplete)}
+      />
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+        <AppNavigator />
       </View>
-
-
-      
-
-
-     );
+    );
   }
+}
 
-  
-  }
+async function loadResourcesAsync() {
+  await Promise.all([
+    Asset.loadAsync([
+      require('./assets/images/robot-dev.png'),
+      require('./assets/images/robot-prod.png'),
+    ]),
+    Font.loadAsync({
+      // This is the font that we are using for our tab bar
+      ...Ionicons.font,
+      // We include SpaceMono because we use it in HomeScreen.js. Feel free to
+      // remove this if you are not using it in your app
+      'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+    }),
+  ]);
+}
 
+function handleLoadingError(error) {
+  // In this case, you might want to report the error to your error reporting
+  // service, for example Sentry
+  console.warn(error);
+}
 
-
-
-
-
-
+function handleFinishLoading(setLoadingComplete) {
+  setLoadingComplete(true);
+}
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow:1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#555555',
+    flex: 1,
+    backgroundColor: '#fff',
   },
-
-  inputBox1: {
-    height:50, 
-    width: 300,
-    borderColor:'white', 
-    borderWidth:1, 
-    margin:20,
-    padding: 16,
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    borderRadius:25,
-    marginTop:80
-},
-
-  buttonText: {
-  fontSize:16, 
-  fontWeight:'500', 
-  color:'white',
-  textAlign: 'center'
-  },
-  
-  button: {
-    width:300,
-    backgroundColor: '#1a1a1a',
-    borderRadius:25,
-    paddingVertical: 12,
-
-  },
-
-inputBox2: {
-    height:50, 
-    width: 300,
-    borderColor:'white', 
-    borderWidth:1, 
-    margin:20,
-    padding: 16,
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    borderRadius:25,
-},
-
-signupTextCont: {
-  flexGrow:1,
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexDirection: 'row',
-  paddingVertical: 16,
-},
-
-signupText: {
-  color:'rgba(255,255,255,0.7)', 
-  fontSize:16
-
-},
-
-signupButton: {
-  color:'#ffffff', 
-  fontSize:16, 
-  fontWeight: '500',
-},
-
 });
-
-
-
-
-

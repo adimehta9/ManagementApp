@@ -45,7 +45,7 @@ export default class LoginScreen extends React.Component {
         <Image
           style = {{ height: 150, width: 150 }}
           // TODO: Change logo
-          source = {require('../assets/images/alphaacademylogo.jpg')}
+          source = {require('../assets/images/alphaacademylogo.png')}
         />
 
         <Text style={{ color: 'white', fontSize: 50, marginBottom: 20, fontFamily: 'TimesNewRomanPSMT' }}>

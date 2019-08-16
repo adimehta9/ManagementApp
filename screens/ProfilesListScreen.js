@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 // TODO: Convert to json
 import flatListData from '../data/flatListData';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
-// TODO: Rewrite for json - Make sure auto indent indents properly
 class FlatListItem extends React.Component{
   render(){
     return(
@@ -35,6 +35,9 @@ class FlatListItem extends React.Component{
     render() {
       return (
         <View style={styles.container}>
+        
+        
+        
         <FlatList data={flatListData} 
         renderItem={({item,index})=>{
           
@@ -51,6 +54,24 @@ class FlatListItem extends React.Component{
           
           </FlatList>
           
+          
+          <TouchableOpacity
+          style={{
+            alignItems: 'center',
+            padding: 10,
+            backgroundColor: '#555555',
+            width:30,
+            height:24,
+            justifyContent: 'center',
+            margin:30
+          }}
+          onPress={() => { this.props.navigation.navigate('Home') }}
+          
+          
+          >
+          
+          
+          </TouchableOpacity>
           
           
           </View>
@@ -88,5 +109,4 @@ class FlatListItem extends React.Component{
               padding: 10, 
               fontSize:16,
             }
-          }
-        )
+          })

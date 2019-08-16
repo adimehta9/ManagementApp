@@ -67,6 +67,20 @@ export default class CreateScheduleScreen extends React.Component {
     return (
       <View style={styles.container}>
       
+      <TouchableOpacity 
+      style={{
+        alignItems: 'center',
+        padding: 10,
+        backgroundColor: '#c9c9c9',
+        width:30,
+        height:24,
+        justifyContent: 'center'
+      }}
+      onPress={() => { this.props.navigation.navigate('Home') }}
+      >
+      </TouchableOpacity>
+
+
       <TouchableOpacity style={styles.coach} onPress={() => this.togglePicker()}>
       <Text style={{color:'white', marginLeft: 16}}>Coach</Text>
       </TouchableOpacity>
@@ -79,7 +93,7 @@ export default class CreateScheduleScreen extends React.Component {
       >
       <View
       style={{
-        margin:20,
+        margin:10,
         padding: 20,
         backgroundColor: "#efefef",
         bottom: 20,
@@ -205,12 +219,12 @@ const styles = StyleSheet.create({
     height: 50,
     width: 300,
     borderWidth: 1,
-    margin: 20,
+    margin: 10,
     borderColor: "white",
     padding: 16,
     backgroundColor: "rgba(255,255,255,0.1)",
     borderRadius: 25,
-    marginTop: 80
+    marginTop: 40
   },
       
   buttonText: {
@@ -233,7 +247,7 @@ const styles = StyleSheet.create({
     width: 300,
     borderColor: "white",
     borderWidth: 1,
-    margin: 20,
+    margin: 10,
     padding: 16,
     backgroundColor: "rgba(255,255,255,0.1)",
     borderRadius: 25

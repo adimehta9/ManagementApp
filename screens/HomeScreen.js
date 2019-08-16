@@ -26,7 +26,7 @@ export default class HomeScreen extends React.Component {
       
       <TouchableOpacity
       style={styles.button}
-      onPress={() => { this.props.navigation.navigate('Settings') }}
+      onPress={() => { this.props.navigation.navigate('CreateSchedule') }}
       >
       <Text style={{
         
@@ -74,9 +74,9 @@ export default class HomeScreen extends React.Component {
     }
   }
   
-  HomeScreen.navigationOptions = {
-    header: null,
-  };
+  // HomeScreen.navigationOptions = {
+  //   header: null,
+  // };
   
   // function DevelopmentModeNotice() {
   //   if (__DEV__) {
@@ -101,17 +101,17 @@ export default class HomeScreen extends React.Component {
   //         }
   //}
   
-  function handleLearnMorePress() {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/workflow/development-mode/'
-      );
-    }
+  // function handleLearnMorePress() {
+  //   WebBrowser.openBrowserAsync(
+  //     'https://docs.expo.io/versions/latest/workflow/development-mode/'
+  //     );
+  //   }
     
-    function handleHelpPress() {
-      WebBrowser.openBrowserAsync(
-        'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
-        );
-      }
+  //   function handleHelpPress() {
+  //     WebBrowser.openBrowserAsync(
+  //       'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
+  //       );
+  //     }
       
       const styles = StyleSheet.create({
         container:{

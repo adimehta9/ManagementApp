@@ -1,12 +1,14 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ProfilesListScreen from '../screens/ProfilesListScreen';
+import CreateScheduleScreen from '../screens/CreateScheduleScreen';
+import HomePageACScreen from '../screens/HomePageACScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -36,6 +38,30 @@ HomeStack.navigationOptions = {
 };
 
 HomeStack.path = '';
+
+const HomePageACStack = createStackNavigator(
+  {
+    HomePageAC: HomePageACScreen,
+  },
+  config
+);
+
+
+HomePageACStack.navigationOptions = {
+  tabBarLabel: 'HomePageAC',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
+    />
+  ),
+};
+
+HomePageACStack.path = '';
 
 const ProfilesListStack = createStackNavigator(
   {
@@ -71,6 +97,25 @@ LinksStack.navigationOptions = {
 
 LinksStack.path = '';
 
+
+const CreateScheduleStack = createStackNavigator(
+  {
+    CreateSchedule: CreateScheduleScreen,
+  },
+  config
+);
+
+CreateScheduleStack.navigationOptions = {
+  tabBarLabel: 'CreateSchedule',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+  ),
+};
+
+CreateScheduleStack.path = '';
+
+
+
 const SettingsStack = createStackNavigator(
   {
     Settings: SettingsScreen,
@@ -87,11 +132,13 @@ SettingsStack.navigationOptions = {
 
 SettingsStack.path = '';
 
-const tabNavigator = createBottomTabNavigator({
+const tabNavigator = createSwitchNavigator({
   HomeStack,
   ProfilesListStack,
   LinksStack,
   SettingsStack,
+  CreateScheduleStack,
+  HomePageACStack,
 });
 
 tabNavigator.path = '';

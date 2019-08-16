@@ -41,7 +41,7 @@ class FlatListItem extends React.Component{
           return(
             
             <FlatListItem item={item} index={index}>
-
+            
             </FlatListItem>
             );
             
@@ -83,6 +83,10 @@ class FlatListItem extends React.Component{
               alignItems: 'center', 
             },
             
-            flatListItem: {color:'white', padding: 10, fontSize:16,}
-            
-          })
+            flatListItem:{
+              color:'white', 
+              padding: 10, 
+              fontSize:16,
+            }
+          }
+        )

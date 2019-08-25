@@ -114,6 +114,11 @@ export default class HomeScreen extends React.Component {
       );
     }
   }
+
+  // Remove white bar header
+  HomeScreen.navigationOptions = {
+    header: null,
+  };
   
   // HomeScreen.navigationOptions = {
   //   header: null,

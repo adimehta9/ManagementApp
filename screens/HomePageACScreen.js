@@ -98,6 +98,7 @@ export default class HomePageACScreen extends React.Component {
       }
     }
     
+    // Remove white bar header
     HomePageACScreen.navigationOptions = {
       header: null,
     };

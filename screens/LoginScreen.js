@@ -10,6 +10,7 @@ import {
   Button,
   View 
 } from 'react-native';
+// TODO: Refactor name
 import login from './login.json'
 
 export default class LoginScreen extends React.Component {
@@ -53,7 +54,7 @@ export default class LoginScreen extends React.Component {
       return (
         // To show the text input when typing in the phone
         
-        <KeyboardAvoidingView style={styles.container}behavior="padding" enabled>
+         <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <Image
         style = {{ height: 150, width: 150 }}
         
@@ -94,11 +95,16 @@ export default class LoginScreen extends React.Component {
         <TouchableOpacity style={styles.button} onPress={this._login}>
         <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
-        </KeyboardAvoidingView>
+         </KeyboardAvoidingView>
         
         );
       }
     }
+
+    // Remove white bar header
+  LoginScreen.navigationOptions = {
+    header: null,
+  };
     
     // TODO: Make prettier
     const styles = StyleSheet.create({

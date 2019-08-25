@@ -4,11 +4,27 @@ import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
 import AppNavigator from './navigation/AppNavigator';
+import FirebaseConfig from './constants/ApiKeys.js';
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
+
+  // Initialise firebase if not already done
+  if (!firebase.apps.length) {
+   firebase.initializeApp(FirebaseConfig);
+  }
+
+  // TODO:
+  // FirebaseError: "projectId" not provided in firebase.initializeApp.
+  //console.log(firebase.firestore());
+
+  // TODO:
+  // console.error: "[2019-08-25T06:05:07.299Z]  @firebase/database:", "FIREBASE FATAL ERROR: Can't determine Firebase Database URL.  Be sure to include databaseURL option when calling firebase.initializeApp(). "
+  //console.log(firebase.database());
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return (
@@ -26,6 +42,7 @@ export default function App(props) {
       </View>
     );
   }
+
 }
 
 async function loadResourcesAsync() {
@@ -60,3 +77,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
+

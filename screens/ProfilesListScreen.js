@@ -42,10 +42,12 @@ class FlatListItem extends React.Component{
         renderItem={({item,index})=>{
           
           return(
-            
+          <TouchableOpacity>
             <FlatListItem item={item} index={index}>
             
             </FlatListItem>
+
+            </TouchableOpacity>  
             );
             
             

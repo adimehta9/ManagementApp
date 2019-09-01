@@ -11,7 +11,8 @@ import {
   View 
 } from 'react-native';
 // TODO: Refactor name
-import login from './login.json'
+import login from './login.json';
+import firebase from 'firebase';
 
 export default class LoginScreen extends React.Component {
   //static navigationOptions = {
@@ -28,6 +29,21 @@ export default class LoginScreen extends React.Component {
   
   // Login Function
   _login = async () => {
+    
+    var ownerData;
+    var ownerDoc = firebase.firestore().collection('users').doc('owner');
+    ownerDoc.get().then(function(doc) {
+      if (doc.exists) {
+        var ownerData = doc.data();
+        // TODO: LoginScreen.state undefined here. Can't compare to ownerData.username or password.
+        // Might need to async this retrieval as well
+        //console.log(this.state);
+      }
+    }).catch(function(error) {
+      console.log("Error getting document:", error);
+    });
+    
+    
     if (login.user1.username === this.state.username && login.user1.password === this.state.password) {
       console.log("Login Success");
       this.props.navigation.navigate('App');
@@ -54,7 +70,7 @@ export default class LoginScreen extends React.Component {
       return (
         // To show the text input when typing in the phone
         
-         <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+        <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <Image
         style = {{ height: 150, width: 150 }}
         
@@ -95,16 +111,16 @@ export default class LoginScreen extends React.Component {
         <TouchableOpacity style={styles.button} onPress={this._login}>
         <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
-         </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
         
         );
       }
     }
-
+    
     // Remove white bar header
-  LoginScreen.navigationOptions = {
-    header: null,
-  };
+    LoginScreen.navigationOptions = {
+      header: null,
+    };
     
     // TODO: Make prettier
     const styles = StyleSheet.create({

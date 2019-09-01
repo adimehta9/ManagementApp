@@ -12,6 +12,11 @@ import {
 
 import { MonoText } from '../components/StyledText';
 
+// TODO: 
+// 1) Google the data types you need for these fields (e.g. Timestamp(Date) for timestamps, and Geopoint(double, double) for geopoints)
+// 2) Google how to restrict the pickers for these fields (e.g. Date Picker and Location picker with lat and lon)
+// 3) Implement it
+// 4) Do firebase.firestore() and set the data (if you need a dummy value, just go Geopoint(0.0, 0.0) first)
 export default class CreateScheduleScreen extends React.Component {
   constructor(props) {
     super(props);

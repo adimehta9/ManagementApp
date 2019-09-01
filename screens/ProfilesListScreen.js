@@ -12,8 +12,10 @@ import flatListData from '../data/flatListData';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
+
 class FlatListItem extends React.Component{
   render(){
+
     return(
       <View style={
         {
@@ -42,11 +44,11 @@ class FlatListItem extends React.Component{
         renderItem={({item,index})=>{
           
           return(
-          <TouchableOpacity>
+            <TouchableOpacity>
             <FlatListItem item={item} index={index}>
             
             </FlatListItem>
-
+            
             </TouchableOpacity>  
             );
             
@@ -86,17 +88,6 @@ class FlatListItem extends React.Component{
       };
       
       
-      function handleLearnMorePress() {
-        WebBrowser.openBrowserAsync(
-          'https://docs.expo.io/versions/latest/workflow/development-mode/'
-          );
-        }
-        
-        function handleHelpPress() {
-          WebBrowser.openBrowserAsync(
-            'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
-            );
-          }
           
           const styles = StyleSheet.create({
             container:{

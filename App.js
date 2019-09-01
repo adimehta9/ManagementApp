@@ -5,17 +5,19 @@ import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as firebase from 'firebase';
-import 'firebase/firestore';
+import '@firebase/firestore';
 
 import AppNavigator from './navigation/AppNavigator';
-import FirebaseConfig from './constants/ApiKeys.js';
+// For some reason, doesn't work like this
+//import FirebaseConfig from './constants/ApiKeys.js';
+import ApiKeys from './constants/ApiKeys';
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 
   // Initialise firebase if not already done
   if (!firebase.apps.length) {
-   firebase.initializeApp(FirebaseConfig);
+   firebase.initializeApp(ApiKeys.FirebaseConfig);
   }
 
   // TODO:

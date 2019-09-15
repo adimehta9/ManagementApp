@@ -11,9 +11,10 @@ import {
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+//import moment from 'moment';
 
 // TODO: 
-// 1) Google the data types you need for these fields (e.g. Timestamp(Date) for timestamps, and Geopoint(double, double) for geopoints)
 // 2) Google how to restrict the pickers for these fields (e.g. Date Picker and Location picker with lat and lon)
 // 3) Implement it
 // 4) Do firebase.firestore() and set the data (if you need a dummy value, just go Geopoint(0.0, 0.0) first)
@@ -27,7 +28,9 @@ export default class CreateScheduleScreen extends React.Component {
       endTimeText: "",
       placeText: "",
       PickerSelection: "Default Value",
-      pickerDisplayed: false
+      pickerDisplayed: false,
+      isVisible: false,
+      chosenDate: '',
     };
   }
   
@@ -45,6 +48,34 @@ export default class CreateScheduleScreen extends React.Component {
     });
   }
   
+  handlePicker = ()=> {
+    this.setState({
+      isVisible:false
+    })
+  }
+
+  showPicker= () => {
+    this.setState({
+      isVisible:true
+    })
+  }
+
+  hidePicker = ()=> {
+    this.setState({
+      isVisible:false,
+      //chosenDate: 
+    })
+  }
+
+
+
+
+  
+
+
+  
+
+
   
   render() {
     const pickerValues = [
@@ -84,8 +115,8 @@ export default class CreateScheduleScreen extends React.Component {
       onPress={() => { this.props.navigation.navigate('Home') }}
       >
       </TouchableOpacity>
-
-
+      
+      
       <TouchableOpacity style={styles.coach} onPress={() => this.togglePicker()}>
       <Text style={{color:'white', marginLeft: 16}}>Coach</Text>
       </TouchableOpacity>
@@ -132,147 +163,152 @@ export default class CreateScheduleScreen extends React.Component {
         
         </View>
         </Modal>
-
-
-
-      {/* <TextInput
+        
+        
+        
+        {/* <TextInput
+          style={styles.inputBox}
+          placeholder="Coach"
+          placeholderTextColor="white"
+          color="white"
+          autoCapitalize="none"
+          onChangeText={CoachText => this.setState({ CoachText })}
+          value={this.state.CoachText}
+        /> */}
+        
+        {/* <TextInput
         style={styles.inputBox}
-        placeholder="Coach"
+        placeholder="Day"
         placeholderTextColor="white"
         color="white"
         autoCapitalize="none"
-        onChangeText={CoachText => this.setState({ CoachText })}
-        value={this.state.CoachText}
-      /> */}
-      
-      <TextInput
-      style={styles.inputBox}
-      placeholder="Day"
-      placeholderTextColor="white"
-      color="white"
-      autoCapitalize="none"
-      onChangeText={dayText => this.setState({ dayText })}
-      value={this.state.dayText}
-      />
-      
-      <TextInput
-      style={styles.inputBox}
-      placeholder="Start Time"
-      placeholderTextColor="white"
-      color="white"
-      autoCapitalize="none"
-      onChangeText={startTimeText => this.setState({ startTimeText })}
-      value={this.state.startTimeText}
-      />
-      
-      <TextInput
-      style={styles.inputBox}
-      placeholder="End Time"
-      placeholderTextColor="white"
-      color="white"
-      autoCapitalize="none"
-      onChangeText={endTimeText => this.setState({ endTimeText })}
-      value={this.state.endTimeText}
-      />
-      
-      <TextInput
-      style={styles.inputBox}
-      placeholder="Place"
-      placeholderTextColor="white"
-      color="white"
-      autoCapitalize="none"
-      onChangeText={placeText => this.setState({ placeText })}
-      value={this.state.placeText}
-      />
-      
-      
-      
+        onChangeText={dayText => this.setState({ dayText })}
+        value={this.state.dayText}
+        /> */}
         
+        <TouchableOpacity style={styles.inputBox} onPress = {this.showPicker}>
+        <Text style={{ color: 'white'}}>Starting</Text>
+        {/* onChangeText={startTimeText => this.setState({ startTimeText })}
+        value={this.state.startTimeText} */}
+        </TouchableOpacity>
+        
+        <DateTimePicker 
+        isVisible = {this.state.isVisible} 
+        onConfirm={this.handlePicker} 
+        onCancel={this.hidePicker}
+        mode='datetime'
+        />
+        
+      
+        <TouchableOpacity style={styles.inputBox} onPress = {this.showPicker}>
+        <Text style={{ color: 'white'}}>Ending</Text>
+        {/* onChangeText={endTimeText => this.setState({ endTimeText })}
+        value={this.state.endTimeText} */}
+        </TouchableOpacity>
+        
+       
 
-      <TouchableOpacity style={styles.button} onPress={this._submit}>
-      <Text style={styles.buttonText}>Submit</Text>
-      </TouchableOpacity>
 
-      </View>
+
+
+        <TextInput
+        style={styles.inputBox}
+        placeholder="Place"
+        placeholderTextColor="white"
+        color="white"
+        autoCapitalize="none"
+        onChangeText={placeText => this.setState({ placeText })}
+        value={this.state.placeText}
+        />
         
         
         
         
-    );
-  }
-  _submit = async () => {
-    console.log(this.state);
-  };
+        
+        <TouchableOpacity style={styles.button} onPress={this._submit}>
+        <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
+        
+        </View>
+        
+        
+        
+        
+        );
+      }
+      _submit = async () => {
+        console.log(this.state);
+      };
       
-}
+    }
     
-CreateScheduleScreen.navigationOptions = {
-  header: null,
-};
+    CreateScheduleScreen.navigationOptions = {
+      header: null,
+    };
     
     
     
-const styles = StyleSheet.create({
-  container: {
-  flexGrow: 1,
-  justifyContent: "center",
-  alignItems: "center",
-  backgroundColor: "#555555"
-},
+    const styles = StyleSheet.create({
+      container: {
+        flexGrow: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#555555"
+      },
       
-  inputBox: {
-    height: 50,
-    width: 300,
-    borderWidth: 1,
-    margin: 10,
-    borderColor: "white",
-    padding: 16,
-    backgroundColor: "rgba(255,255,255,0.1)",
-    borderRadius: 25,
-    marginTop: 40
-  },
+      inputBox: {
+        height: 50,
+        width: 300,
+        borderWidth: 1,
+        margin: 10,
+        borderColor: "white",
+        padding: 16,
+        backgroundColor: "rgba(255,255,255,0.1)",
+        borderRadius: 25,
+        marginTop: 40
+      },
       
-  buttonText: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "white",
-    textAlign: "center"
-  },
+      buttonText: {
+        fontSize: 16,
+        fontWeight: "500",
+        color: "white",
+        textAlign: "center"
+      },
       
-  button: {
-    width: 300,
-    backgroundColor: "#1a1a1a",
-    borderRadius: 25,
-    paddingVertical: 12,
-    marginBottom:20,
-    marginTop: 40
-  },
-  inputBox2: {
-    height: 50,
-    width: 300,
-    borderColor: "white",
-    borderWidth: 1,
-    margin: 10,
-    padding: 16,
-    backgroundColor: "rgba(255,255,255,0.1)",
-    borderRadius: 25
-  },
+      button: {
+        width: 300,
+        backgroundColor: "#1a1a1a",
+        borderRadius: 25,
+        paddingVertical: 12,
+        marginBottom:20,
+        marginTop: 40
+      },
+      inputBox2: {
+        height: 50,
+        width: 300,
+        borderColor: "white",
+        borderWidth: 1,
+        margin: 10,
+        padding: 16,
+        backgroundColor: "rgba(255,255,255,0.1)",
+        borderRadius: 25
+      },
       
-  coach: {
-    height: 50,
-    width: 300,
-    borderColor: "white",
-    borderWidth: 1,
-    justifyContent: 'center',
-    marginTop: 50,
-    borderRadius: 25,
-    backgroundColor: "rgba(255,255,255,0.1)",
-
-  },
-  
-
-      
-  
+      coach: {
+        height: 50,
+        width: 300,
+        borderColor: "white",
+        borderWidth: 1,
+        justifyContent: 'center',
+        marginTop: 50,
+        borderRadius: 25,
+        backgroundColor: "rgba(255,255,255,0.1)",
+        
+      },
       
       
-});
+      
+      
+      
+      
+    });

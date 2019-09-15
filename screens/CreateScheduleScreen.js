@@ -10,7 +10,6 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-import { MonoText } from '../components/StyledText';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 //import moment from 'moment';
 
@@ -23,17 +22,37 @@ export default class CreateScheduleScreen extends React.Component {
     super(props);
     this.state = {
       CoachText: "",
-      dayText: "",
-      startTimeText: "",
-      endTimeText: "",
+      startTime: new Date(),
+      startTimeText: "Starting Time",
+      endTime: new Date(),
+      endTimeText: "Ending Time",
       placeText: "",
-      PickerSelection: "Default Value",
       pickerDisplayed: false,
       isVisible: false,
-      chosenDate: '',
     };
   }
   
+  //Update selected startTime in state and update startTimeText
+  setDate = startTimePicked => {
+    
+    // Hide picker
+    this.setState({
+      isVisible:false
+    })
+    
+    this.setState({
+      startTime: startTimePicked,
+    });
+    
+    // TODO: async issue
+    this.setState({startTimeText: this.state.startTime.toString()})
+    
+  }
+  
+// ==============================
+// |   Picker state functions   |
+// ==============================
+
   setPickerValue(newValue) {
     this.setState({
       pickerSelection: newValue
@@ -48,34 +67,35 @@ export default class CreateScheduleScreen extends React.Component {
     });
   }
   
-  handlePicker = ()=> {
-    this.setState({
-      isVisible:false
-    })
-  }
-
   showPicker= () => {
     this.setState({
       isVisible:true
     })
   }
-
+  
   hidePicker = ()=> {
     this.setState({
       isVisible:false,
       //chosenDate: 
     })
   }
-
-
-
-
   
-
-
+  updateText = () => {
+    this.showPicker();
+    
+  }
   
-
-
+// =================================
+// |  END Picker state functions   |
+// =================================
+  
+  
+  
+  
+  
+  
+  
+  
   
   render() {
     const pickerValues = [
@@ -177,138 +197,138 @@ export default class CreateScheduleScreen extends React.Component {
         /> */}
         
         {/* <TextInput
-        style={styles.inputBox}
-        placeholder="Day"
-        placeholderTextColor="white"
-        color="white"
-        autoCapitalize="none"
-        onChangeText={dayText => this.setState({ dayText })}
-        value={this.state.dayText}
+          style={styles.inputBox}
+          placeholder="Day"
+          placeholderTextColor="white"
+          color="white"
+          autoCapitalize="none"
+          onChangeText={dayText => this.setState({ dayText })}
+          value={this.state.dayText}
         /> */}
         
-        <TouchableOpacity style={styles.inputBox} onPress = {this.showPicker}>
-        <Text style={{ color: 'white'}}>Starting</Text>
-        {/* onChangeText={startTimeText => this.setState({ startTimeText })}
-        value={this.state.startTimeText} */}
+        {/* Displays Date and time selected :) */}
+        <TouchableOpacity style={styles.inputBox} onPress={this.updateText}>
+          <Text style={{ color: 'white'}}> {this.state.startTimeText} </Text>
         </TouchableOpacity>
         
+        {/* Picker for start time */}
         <DateTimePicker 
         isVisible = {this.state.isVisible} 
-        onConfirm={this.handlePicker} 
         onCancel={this.hidePicker}
+        onConfirm={this.setDate}
         mode='datetime'
         />
         
-      
+        
         <TouchableOpacity style={styles.inputBox} onPress = {this.showPicker}>
         <Text style={{ color: 'white'}}>Ending</Text>
         {/* onChangeText={endTimeText => this.setState({ endTimeText })}
-        value={this.state.endTimeText} */}
-        </TouchableOpacity>
-        
-       
-
-
-
-
-        <TextInput
-        style={styles.inputBox}
-        placeholder="Place"
-        placeholderTextColor="white"
-        color="white"
-        autoCapitalize="none"
-        onChangeText={placeText => this.setState({ placeText })}
-        value={this.state.placeText}
-        />
-        
-        
-        
-        
-        
-        <TouchableOpacity style={styles.button} onPress={this._submit}>
-        <Text style={styles.buttonText}>Submit</Text>
-        </TouchableOpacity>
-        
-        </View>
-        
-        
-        
-        
-        );
-      }
-      _submit = async () => {
-        console.log(this.state);
-      };
+      value={this.state.endTimeText} */}
+      </TouchableOpacity>
       
+      
+      
+      
+      
+      
+      <TextInput
+      style={styles.inputBox}
+      placeholder="Place"
+      placeholderTextColor="white"
+      color="white"
+      autoCapitalize="none"
+      onChangeText={placeText => this.setState({ placeText })}
+      value={this.state.placeText}
+      />
+      
+      
+      
+      
+      
+      <TouchableOpacity style={styles.button} onPress={this._submit}>
+      <Text style={styles.buttonText}>Submit</Text>
+      </TouchableOpacity>
+      
+      </View>
+      
+      
+      
+      
+      );
     }
-    
-    CreateScheduleScreen.navigationOptions = {
-      header: null,
+    _submit = async () => {
+      console.log(this.state);
     };
     
+  }
+  
+  CreateScheduleScreen.navigationOptions = {
+    header: null,
+  };
+  
+  
+  
+  const styles = StyleSheet.create({
+    container: {
+      flexGrow: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#555555"
+    },
+    
+    inputBox: {
+      height: 50,
+      width: 300,
+      borderWidth: 1,
+      margin: 10,
+      borderColor: "white",
+      padding: 16,
+      backgroundColor: "rgba(255,255,255,0.1)",
+      borderRadius: 25,
+      marginTop: 40
+    },
+    
+    buttonText: {
+      fontSize: 16,
+      fontWeight: "500",
+      color: "white",
+      textAlign: "center"
+    },
+    
+    button: {
+      width: 300,
+      backgroundColor: "#1a1a1a",
+      borderRadius: 25,
+      paddingVertical: 12,
+      marginBottom:20,
+      marginTop: 40
+    },
+    inputBox2: {
+      height: 50,
+      width: 300,
+      borderColor: "white",
+      borderWidth: 1,
+      margin: 10,
+      padding: 16,
+      backgroundColor: "rgba(255,255,255,0.1)",
+      borderRadius: 25
+    },
+    
+    coach: {
+      height: 50,
+      width: 300,
+      borderColor: "white",
+      borderWidth: 1,
+      justifyContent: 'center',
+      marginTop: 50,
+      borderRadius: 25,
+      backgroundColor: "rgba(255,255,255,0.1)",
+      
+    },
     
     
-    const styles = StyleSheet.create({
-      container: {
-        flexGrow: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#555555"
-      },
-      
-      inputBox: {
-        height: 50,
-        width: 300,
-        borderWidth: 1,
-        margin: 10,
-        borderColor: "white",
-        padding: 16,
-        backgroundColor: "rgba(255,255,255,0.1)",
-        borderRadius: 25,
-        marginTop: 40
-      },
-      
-      buttonText: {
-        fontSize: 16,
-        fontWeight: "500",
-        color: "white",
-        textAlign: "center"
-      },
-      
-      button: {
-        width: 300,
-        backgroundColor: "#1a1a1a",
-        borderRadius: 25,
-        paddingVertical: 12,
-        marginBottom:20,
-        marginTop: 40
-      },
-      inputBox2: {
-        height: 50,
-        width: 300,
-        borderColor: "white",
-        borderWidth: 1,
-        margin: 10,
-        padding: 16,
-        backgroundColor: "rgba(255,255,255,0.1)",
-        borderRadius: 25
-      },
-      
-      coach: {
-        height: 50,
-        width: 300,
-        borderColor: "white",
-        borderWidth: 1,
-        justifyContent: 'center',
-        marginTop: 50,
-        borderRadius: 25,
-        backgroundColor: "rgba(255,255,255,0.1)",
-        
-      },
-      
-      
-      
-      
-      
-      
-    });
+    
+    
+    
+    
+  });

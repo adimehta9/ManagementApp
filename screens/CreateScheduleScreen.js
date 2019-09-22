@@ -28,17 +28,16 @@ export default class CreateScheduleScreen extends React.Component {
       endTimeText: "Ending Time",
       placeText: "",
       pickerDisplayed: false,
-      isVisible: false,
+      isStartPickerVisible: false,
+      isEndPickerVisible: false
     };
   }
   
   //Update selected startTime in state and update startTimeText
-  setDate = startTimePicked => {
+  setStartTime = startTimePicked => {
     
     // Hide picker
-    this.setState({
-      isVisible:false
-    })
+    this.hidePickers();
     
     this.setState({
       startTime: startTimePicked,
@@ -46,6 +45,23 @@ export default class CreateScheduleScreen extends React.Component {
     
     // TODO: async issue
     this.setState({startTimeText: this.state.startTime.toString()})
+    //console.log("start time = " + this.state.startTime.toString());
+    
+  }
+
+  //Update selected endTime in state and update endTimeText
+  setEndTime = endTimePicked => {
+    
+    // Hide picker
+    this.hidePickers();
+    
+    this.setState({
+      endTime: endTimePicked,
+    });
+    
+    // TODO: async issue
+    this.setState({endTimeText: this.state.endTime.toString()})
+    //console.log("end time = " + this.state.endTime.toString());
     
   }
   
@@ -53,6 +69,7 @@ export default class CreateScheduleScreen extends React.Component {
 // |   Picker state functions   |
 // ==============================
 
+  // For coach
   setPickerValue(newValue) {
     this.setState({
       pickerSelection: newValue
@@ -61,28 +78,42 @@ export default class CreateScheduleScreen extends React.Component {
     this.togglePicker();
   }
   
+  // For coach
   togglePicker() {
     this.setState({
       pickerDisplayed: !this.state.pickerDisplayed
     });
   }
-  
-  showPicker= () => {
+
+  hidePickers = () => {
     this.setState({
-      isVisible:true
+      isStartPickerVisible:false,
+      isEndPickerVisible:false,
+    })
+  }
+ 
+  hideStartPicker = ()=> {
+    this.setState({
+      isStartPickerVisible:false,
+    })
+  }
+
+  hideEndPicker = ()=> {
+    this.setState({
+      isEndPickerVisible:false,
     })
   }
   
-  hidePicker = ()=> {
+  showStartPicker = () => {
     this.setState({
-      isVisible:false,
-      //chosenDate: 
+      isStartPickerVisible:true
     })
   }
   
-  updateText = () => {
-    this.showPicker();
-    
+  showEndPicker = () => {
+    this.setState({
+      isEndPickerVisible:true
+    })
   }
   
 // =================================
@@ -207,26 +238,31 @@ export default class CreateScheduleScreen extends React.Component {
         /> */}
         
         {/* Displays Date and time selected :) */}
-        <TouchableOpacity style={styles.inputBox} onPress={this.updateText}>
+        <TouchableOpacity style={styles.inputBox} onPress={this.showStartPicker}>
           <Text style={{ color: 'white'}}> {this.state.startTimeText} </Text>
         </TouchableOpacity>
         
         {/* Picker for start time */}
-        <DateTimePicker 
-        isVisible = {this.state.isVisible} 
-        onCancel={this.hidePicker}
-        onConfirm={this.setDate}
+        <DateTimePicker
+        isVisible = {this.state.isStartPickerVisible} 
+        onCancel={this.hideStartPicker}
+        onConfirm={this.setStartTime}
         mode='datetime'
         />
         
         
-        <TouchableOpacity style={styles.inputBox} onPress = {this.showPicker}>
-        <Text style={{ color: 'white'}}>Ending</Text>
-        {/* onChangeText={endTimeText => this.setState({ endTimeText })}
-      value={this.state.endTimeText} */}
+        <TouchableOpacity style={styles.inputBox} onPress = {this.showEndPicker}>
+        {/* <Text style={{ color: 'white'}}>Ending</Text> */}
+        <Text style={{ color: 'white'}}> {this.state.endTimeText} </Text>
       </TouchableOpacity>
       
-      
+       {/* Picker for end time */}
+       <DateTimePicker
+        isVisible = {this.state.isEndPickerVisible} 
+        onCancel={this.hideEndPicker}
+        onConfirm={this.setEndTime}
+        mode='datetime'
+        />
       
       
       

@@ -10,13 +10,14 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-import DateTimePicker from 'react-native-modal-datetime-picker';
-//import moment from 'moment';
+import firebase from 'firebase';
 
-// TODO: 
-// 2) Google how to restrict the pickers for these fields (e.g. Date Picker and Location picker with lat and lon)
-// 3) Implement it
-// 4) Do firebase.firestore() and set the data (if you need a dummy value, just go Geopoint(0.0, 0.0) first)
+import DateTimePicker from 'react-native-modal-datetime-picker';
+//import LocationView from "react-native-location-view";
+import moment from 'moment';
+import ApiKeys from '../constants/ApiKeys';
+
+// TODO: Pick 5 locations and get their coordinates. Then create a picker for these 5 locations.
 export default class CreateScheduleScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -26,10 +27,11 @@ export default class CreateScheduleScreen extends React.Component {
       startTimeText: "Starting Time",
       endTime: new Date(),
       endTimeText: "Ending Time",
-      placeText: "",
+      location: new firebase.firestore.GeoPoint(1.303305,103.777646),
+      placeText: "Location",
       pickerDisplayed: false,
       isStartPickerVisible: false,
-      isEndPickerVisible: false
+      isEndPickerVisible: false,
     };
   }
   
@@ -41,14 +43,10 @@ export default class CreateScheduleScreen extends React.Component {
     
     this.setState({
       startTime: startTimePicked,
+      startTimeText: startTimePicked.toString()
     });
-    
-    // TODO: async issue
-    this.setState({startTimeText: this.state.startTime.toString()})
-    //console.log("start time = " + this.state.startTime.toString());
-    
   }
-
+  
   //Update selected endTime in state and update endTimeText
   setEndTime = endTimePicked => {
     
@@ -57,18 +55,20 @@ export default class CreateScheduleScreen extends React.Component {
     
     this.setState({
       endTime: endTimePicked,
+      endTimeText: endTimePicked.toString()
     });
-    
-    // TODO: async issue
-    this.setState({endTimeText: this.state.endTime.toString()})
-    //console.log("end time = " + this.state.endTime.toString());
     
   }
   
-// ==============================
-// |   Picker state functions   |
-// ==============================
-
+  // TODO: make it work
+  chooseLocation() {
+    
+  }
+  
+  // ==============================
+  // |   Picker state functions   |
+  // ==============================
+  
   // For coach
   setPickerValue(newValue) {
     this.setState({
@@ -84,20 +84,30 @@ export default class CreateScheduleScreen extends React.Component {
       pickerDisplayed: !this.state.pickerDisplayed
     });
   }
-
+  
   hidePickers = () => {
     this.setState({
       isStartPickerVisible:false,
       isEndPickerVisible:false,
+      
     })
   }
- 
+  
+  
+  handlePicker = (datetime) => {
+    this.setState({
+      isVisible: false, 
+      chosenDate: moment (datetime). format('MMM, Do YYYY HH:mm')
+    })
+  }
+  
+  
   hideStartPicker = ()=> {
     this.setState({
       isStartPickerVisible:false,
     })
   }
-
+  
   hideEndPicker = ()=> {
     this.setState({
       isEndPickerVisible:false,
@@ -116,16 +126,26 @@ export default class CreateScheduleScreen extends React.Component {
     })
   }
   
-// =================================
-// |  END Picker state functions   |
-// =================================
+  // =================================
+  // |  END Picker state functions   |
+  // =================================
   
-  
-  
-  
-  
-  
-  
+  // Adds coach, startTime, endTime, location to firebase with unique document id
+  _submit = async() => {
+
+    firebase.firestore().collection("schedules").add({
+      coach: this.state.CoachText,
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+      location: this.state.location,
+    }).then(function() {
+      console.log("Document successfully written!");
+    })
+    .catch(function(error) {
+      console.error("Error writing document: ", error);
+    });
+
+  }
   
   
   render() {
@@ -154,6 +174,9 @@ export default class CreateScheduleScreen extends React.Component {
     return (
       <View style={styles.container}>
       
+      
+      
+      {/* Back button */}
       <TouchableOpacity 
       style={{
         alignItems: 'center',
@@ -168,11 +191,17 @@ export default class CreateScheduleScreen extends React.Component {
       </TouchableOpacity>
       
       
+      
+      
+      {/* Coach Button */}
       <TouchableOpacity style={styles.coach} onPress={() => this.togglePicker()}>
       <Text style={{color:'white', marginLeft: 16}}>Coach</Text>
       </TouchableOpacity>
       
       
+      
+      
+      {/* Showing the Coach Menu */}
       <Modal
       visible={this.state.pickerDisplayed}
       animationType={"slide"}
@@ -216,30 +245,9 @@ export default class CreateScheduleScreen extends React.Component {
         </Modal>
         
         
-        
-        {/* <TextInput
-          style={styles.inputBox}
-          placeholder="Coach"
-          placeholderTextColor="white"
-          color="white"
-          autoCapitalize="none"
-          onChangeText={CoachText => this.setState({ CoachText })}
-          value={this.state.CoachText}
-        /> */}
-        
-        {/* <TextInput
-          style={styles.inputBox}
-          placeholder="Day"
-          placeholderTextColor="white"
-          color="white"
-          autoCapitalize="none"
-          onChangeText={dayText => this.setState({ dayText })}
-          value={this.state.dayText}
-        /> */}
-        
         {/* Displays Date and time selected :) */}
         <TouchableOpacity style={styles.inputBox} onPress={this.showStartPicker}>
-          <Text style={{ color: 'white'}}> {this.state.startTimeText} </Text>
+        <Text style={{ color: 'white'}}> {this.state.startTimeText} </Text>
         </TouchableOpacity>
         
         {/* Picker for start time */}
@@ -254,33 +262,47 @@ export default class CreateScheduleScreen extends React.Component {
         <TouchableOpacity style={styles.inputBox} onPress = {this.showEndPicker}>
         {/* <Text style={{ color: 'white'}}>Ending</Text> */}
         <Text style={{ color: 'white'}}> {this.state.endTimeText} </Text>
-      </TouchableOpacity>
-      
-       {/* Picker for end time */}
-       <DateTimePicker
+        </TouchableOpacity>
+        
+        
+        
+        {/* Picker for end time */}
+        <DateTimePicker
         isVisible = {this.state.isEndPickerVisible} 
         onCancel={this.hideEndPicker}
         onConfirm={this.setEndTime}
         mode='datetime'
         />
+        
+        
+        
+        <TouchableOpacity style={styles.inputBox} onPress = {this.chooseLocation}>
+        <Text style={{ color: 'white'}}> {this.state.placeText} </Text>
+        {/* <TextInput
+          style={styles.inputBox}
+          placeholder="Place"
+          placeholderTextColor="white"
+          color="white"
+          autoCapitalize="none"
+          //onChangeText={placeText => this.setState({ placeText })}
+          value={this.state.placeText}
+        /> */}
+        </TouchableOpacity>
+        
+        {/* TODO: Nice to have  */}
+        {/* <View style={styles.googleMapsPickerView}>
+        <LocationView style={styles.googleMapsPicker}
+        apiKey={ ApiKeys.GoogleMaps.apiKey }
+        initialLocation={{
+          latitude: 1.303305, 
+          longitude: 103.777646,
+        }}
+        />
+      </View> */}
       
       
       
-      
-      <TextInput
-      style={styles.inputBox}
-      placeholder="Place"
-      placeholderTextColor="white"
-      color="white"
-      autoCapitalize="none"
-      onChangeText={placeText => this.setState({ placeText })}
-      value={this.state.placeText}
-      />
-      
-      
-      
-      
-      
+      {/* TODO: Set info in firebase */}
       <TouchableOpacity style={styles.button} onPress={this._submit}>
       <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
@@ -292,10 +314,6 @@ export default class CreateScheduleScreen extends React.Component {
       
       );
     }
-    _submit = async () => {
-      console.log(this.state);
-    };
-    
   }
   
   CreateScheduleScreen.navigationOptions = {
@@ -362,7 +380,12 @@ export default class CreateScheduleScreen extends React.Component {
       
     },
     
-    
+    googleMapsPickerView: {
+      position: 'absolute',
+      height: '100%',
+      width: '100%',
+      display: 'none',
+    },
     
     
     
